@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- solid color for the background (White) -->
+    <solid android:color="@android:color/white" />
+
+    <!-- A thin gray border for definition -->
+    <stroke
+        android:width="1dp"
+        android:color="#CCCCCC" />
+
+    <!-- define the corner radius (8dp) -->
+    <corners android:radius="8dp" />
+
+    <!-- Add padding inside the box so text doesn't touch the edge -->
+    <padding
+        android:left="12dp"
+        android:top="12dp"
+        android:right="12dp"
+        android:bottom="12dp" />
+</shape>

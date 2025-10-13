@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout for NewTaskActivity (The Form Screen) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F7E7CE"
+    tools:context=".NewTaskActivity">
+
+    <!-- Banner/Title for the form -->
+    <TextView
+        android:id="@+id/bannerTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Task Logger: Add New Task"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingTop="40dp"
+        android:paddingBottom="35dp"
+        />
+
+    <!-- Input Field: Task Title (Required, Task 8 Validation target) -->
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Task Title (Required)"
+        android:background="@drawable/rounded_edittext_background"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Input Field: Deadline (Required, Task 8 Validation target with DatePicker) -->
+    <EditText
+        android:id="@+id/editTextDeadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Deadline (Tap to select date)"
+        android:background="@drawable/rounded_edittext_background"
+        android:inputType="none"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:minHeight="48dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Input Field: Notes (Optional) -->
+    <EditText
+        android:id="@+id/editTextNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Notes (Optional)"
+        android:background="@drawable/rounded_edittext_background"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:gravity="top"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Checkbox for storage selection (Task 4 requirement) -->
+    <CheckBox
+        android:id="@+id/checkboxStorageMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Use SQLite (Unchecked: Use SharedPreferences)"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Button Container: Horizontal layout to place Cancel and Save buttons side-by-side -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- Cancel Button: Secondary action -->
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:padding="12dp"
+            android:textSize="18sp"
+            android:backgroundTint="#CCCCCC"
+            android:textColor="#333333"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- Save Task Button: Primary action -->
+        <Button
+            android:id="@+id/btnSubmitTask"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save Task"
+            android:padding="12dp"
+            android:textSize="18sp"
+            android:backgroundTint="#6200EE"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+
+</LinearLayout>

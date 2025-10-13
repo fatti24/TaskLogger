@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="32dp"
+    android:background="#F7E7CE"
+    tools:context=".MainActivity">
+
+    <!-- Welcome Container -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:padding="30dp"
+        android:background="@android:color/white"
+        android:elevation="12dp"
+        android:id="@+id/welcomeContainer">
+
+        <!-- Icon/Design Element: Pen and Book -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📝"
+            android:textSize="96sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!--Main Title: Clear and large welcome message -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to Task Logger"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Subtitle/Description: Explains the app's purpose -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Plan your daily tasks to stay organized!"
+            android:textSize="16sp"
+            android:textColor="#666666"
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:layout_marginBottom="40dp"/>
+
+        <!-- Button to launch Form Activity (NewTaskActivity) -->
+        <Button
+            android:id="@+id/btnLaunchForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start New Task"
+            android:padding="12dp"
+            android:textSize="18sp"
+            android:backgroundTint="#6200EE"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+    <!-- This button is only visible on the main list screen in a real app,
+         but for now it's the only way to navigate to the form. -->
+
+</RelativeLayout>
