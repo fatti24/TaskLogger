@@ -9,17 +9,18 @@
 
     <!-- Welcome Container -->
     <LinearLayout
+        android:id="@+id/welcomeContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:padding="30dp"
         android:background="@android:color/white"
-        android:elevation="12dp"
-        android:id="@+id/welcomeContainer">
+        android:elevation="12dp">
 
-        <!-- Icon/Design Element: Pen and Book -->
+        <!-- Icon/Design Element -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +28,7 @@
             android:textSize="96sp"
             android:layout_marginBottom="16dp"/>
 
-        <!--Main Title: Clear and large welcome message -->
+        <!-- Main Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +39,7 @@
             android:gravity="center"
             android:layout_marginBottom="8dp"/>
 
-        <!-- Subtitle/Description: Explains the app's purpose -->
+        <!-- Subtitle -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +50,7 @@
             android:paddingTop="30dp"
             android:layout_marginBottom="40dp"/>
 
-        <!-- Button to launch Form Activity (NewTaskActivity) -->
+        <!-- Button to launch Form Activity -->
         <Button
             android:id="@+id/btnLaunchForm"
             android:layout_width="match_parent"
@@ -59,10 +60,14 @@
             android:textSize="18sp"
             android:backgroundTint="#6200EE"
             android:textColor="@android:color/white"/>
-
     </LinearLayout>
 
-    <!-- This button is only visible on the main list screen in a real app,
-         but for now it's the only way to navigate to the form. -->
-
+    <!-- RecyclerView to display tasks -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTasks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/welcomeContainer"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"/>
 </RelativeLayout>
