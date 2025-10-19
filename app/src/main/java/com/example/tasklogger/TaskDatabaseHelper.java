@@ -35,10 +35,11 @@ public class TaskDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Insert a task
-    public void insertTask(Task task) {
+    public long insertTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO tasks (title, deadline, notes) VALUES (?, ?, ?)",
                 new Object[]{task.getTitle(), task.getDeadline(), task.getNotes()});
+        return 0;
     }
 
     // **Get all tasks**
@@ -60,7 +61,7 @@ public class TaskDatabaseHelper extends SQLiteOpenHelper {
         return tasks;
     }
 
-    
+
     public void deleteTask(int taskId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("tasks", "id = ?", new String[]{String.valueOf(taskId)});

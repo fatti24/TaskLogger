@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F7E7CE">
+
+    <!-- Vertical container to stack title, deadline, and notes -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Task title (primary text) -->
+        <TextView
+            android:id="@+id/title"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Task deadline (secondary metadata) -->
+        <TextView android:id="@+id/deadline"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="6dp"/>
+
+        <!-- Task notes (longer body text) -->
+        <TextView android:id="@+id/notes"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"/>
+
+    </LinearLayout>
+</ScrollView>

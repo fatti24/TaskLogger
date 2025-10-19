@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">TaskLogger</string>
+    <string name="add_task">Add Task</string>
+    <string name="your_tasks">Your Tasks</string>
+    <string name="welcome_to_task_logger">Welcome to Task Logger</string>
+    <string name="plan_your_daily_tasks_to_stay_organized">Plan your daily tasks to stay organized!</string>
+    <string name="start_new_task">Start New Task</string>
+    <string name="add_new_task">Add New Task</string>
+    <string name="write_icon">📝</string>
+    <string name="task_logger_add_new_task">Task Logger: Add New Task</string>
+    <string name="task_title_required">Task Title (Required)</string>
+    <string name="deadline_tap_to_select_date">Deadline (Tap to select date)</string>
+    <string name="notes_optional">Notes (Optional)</string>
+    <string name="use_sqlite_unchecked_use_sharedpreferences">Use SQLite (Unchecked: Use SharedPreferences)</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_task">Save Task</string>
+    <string name="task_title">Task Title</string>
+    <string name="deadline">Deadline</string>
+    <string name="delete">Delete</string>
 </resources>
