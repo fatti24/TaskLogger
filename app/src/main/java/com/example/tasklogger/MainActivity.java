@@ -1,5 +1,6 @@
 package com.example.tasklogger;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -7,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.content.Intent;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,10 +19,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout welcomeContainer;
+    private LinearLayout taskListContainer;
     private RecyclerView recyclerViewTasks;
-    private TaskDatabaseHelper dbHelper;
     private TaskAdapter adapter;
     private List<Task> taskList;
+    private TaskDatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +31,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize views
-        Button btnLaunchForm = findViewById(R.id.btnLaunchForm);
         welcomeContainer = findViewById(R.id.welcomeContainer);
+        taskListContainer = findViewById(R.id.taskListContainer);
         recyclerViewTasks = findViewById(R.id.recyclerViewTasks);
+
+        Button btnLaunchForm = findViewById(R.id.btnLaunchForm);  // From welcome page
+        Button btnAddTask = findViewById(R.id.btnAddTask);        // From task list page
 
         dbHelper = new TaskDatabaseHelper(this);
         taskList = new ArrayList<>();
@@ -44,26 +47,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Task task) {
                 Toast.makeText(MainActivity.this, "Tapped: " + task.getTitle(), Toast.LENGTH_SHORT).show();
-                // Here you can open a detail screen if you want
+                // TODO: open detail screen if needed
             }
 
             @Override
             public void onItemLongClick(Task task) {
                 Toast.makeText(MainActivity.this, "Long pressed: " + task.getTitle(), Toast.LENGTH_SHORT).show();
-                // Here you can implement deletion or editing
+                // TODO: implement deletion or editing
             }
         });
         recyclerViewTasks.setAdapter(adapter);
 
-        btnLaunchForm.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, NewTaskActivity.class));
-        });
+        // Click listeners for both buttons to launch NewTaskActivity
+        btnLaunchForm.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, NewTaskActivity.class)));
+        btnAddTask.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, NewTaskActivity.class)));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadTasksFromDatabase();
+        loadTasksFromDatabase(); // Refresh task list every time the activity comes to foreground
     }
 
     private void loadTasksFromDatabase() {
@@ -82,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
 
-        // Toggle welcome message vs RecyclerView
+        // Toggle visibility
         if (taskList.isEmpty()) {
             welcomeContainer.setVisibility(View.VISIBLE);
-            recyclerViewTasks.setVisibility(View.GONE);
+            taskListContainer.setVisibility(View.GONE);
         } else {
             welcomeContainer.setVisibility(View.GONE);
-            recyclerViewTasks.setVisibility(View.VISIBLE);
+            taskListContainer.setVisibility(View.VISIBLE);
         }
     }
 }

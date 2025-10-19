@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="32dp"
     android:background="#F7E7CE"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="16dp">
 
-    <!-- Welcome Container -->
+    <!-- Home / Welcome Page -->
     <LinearLayout
         android:id="@+id/welcomeContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
         android:padding="30dp"
         android:background="@android:color/white"
         android:elevation="12dp">
 
-        <!-- Icon/Design Element -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +26,6 @@
             android:textSize="96sp"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Main Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +36,6 @@
             android:gravity="center"
             android:layout_marginBottom="8dp"/>
 
-        <!-- Subtitle -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,10 +43,8 @@
             android:textSize="16sp"
             android:textColor="#666666"
             android:gravity="center"
-            android:paddingTop="30dp"
             android:layout_marginBottom="40dp"/>
 
-        <!-- Button to launch Form Activity -->
         <Button
             android:id="@+id/btnLaunchForm"
             android:layout_width="match_parent"
@@ -62,12 +56,31 @@
             android:textColor="@android:color/white"/>
     </LinearLayout>
 
-    <!-- RecyclerView to display tasks -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewTasks"
+    <!-- Task List Page -->
+    <LinearLayout
+        android:id="@+id/taskListContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/welcomeContainer"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"/>
-</RelativeLayout>
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingTop="16dp">
+
+        <Button
+            android:id="@+id/btnAddTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add New Task"
+            android:padding="12dp"
+            android:textSize="18sp"
+            android:backgroundTint="#6200EE"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="16dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewTasks"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</FrameLayout>
