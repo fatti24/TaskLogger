@@ -14,6 +14,10 @@ import com.example.tasklogger.Task;
 import android.app.DatePickerDialog;
 import java.util.Calendar;
 import java.util.Locale;
+import android.content.SharedPreferences;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class NewTaskActivity extends AppCompatActivity {
@@ -25,6 +29,7 @@ public class NewTaskActivity extends AppCompatActivity {
     private CheckBox checkboxStorageMethod;
     private Button btnSubmitTask;
     private Button btnCancel;
+    private TaskDatabaseHelper dbHelper;   // SQLite helper
 
 
     @Override
@@ -39,6 +44,8 @@ public class NewTaskActivity extends AppCompatActivity {
         checkboxStorageMethod = findViewById(R.id.checkboxStorageMethod);
         btnSubmitTask = findViewById(R.id.btnSubmitTask);
         btnCancel = findViewById(R.id.btnCancel);
+
+        dbHelper = new TaskDatabaseHelper(this);
 
         editTextDeadline.setOnClickListener(v -> showDatePickerDialog());   //set up DatePicker dialog on deadline
 
@@ -88,15 +95,40 @@ public class NewTaskActivity extends AppCompatActivity {
         String notes = editTextNotes.getText().toString().trim();
         boolean useSQLite = checkboxStorageMethod.isChecked();
 
-        Task newTask = new Task(title, deadline, notes);       //create task object
 
-        Toast.makeText(this, "Validation OK. Handing off for data storage.", Toast.LENGTH_LONG).show();     //notify user validation is complete
+
+        if (useSQLite) {
+            // --- Save to SQLite ---
+            Task newTask = new Task(title, deadline, notes);
+            long rowId = dbHelper.insertTask(newTask);  // returns -1 on failure
+            if (rowId != -1) {
+                Toast.makeText(this, "Task saved in SQLite ✅", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Failed to save task to SQLite ❌", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } else {
+            // --- Save to SharedPreferences: append to JSON array "tasks_json" ---
+            SharedPreferences prefs = getSharedPreferences("TaskPrefs", MODE_PRIVATE);
+            String json = prefs.getString("tasks_json", "[]");
+            try {
+                JSONArray arr = new JSONArray(json);
+                JSONObject obj = new JSONObject();
+                obj.put("title", title);
+                obj.put("deadline", deadline);
+                obj.put("notes", notes);
+                arr.put(obj);
+                prefs.edit().putString("tasks_json", arr.toString()).apply();
+                Toast.makeText(this, "Task saved in SharedPreferences ✅", Toast.LENGTH_SHORT).show();
+            } catch (JSONException e) {
+                Toast.makeText(this, "Failed to save task to SharedPreferences ❌", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
 
         clearFormFields();  //clear form
 
-        finish();   //finish activity
-
-
+        finish();   //finish activity & return to MainActivity, which will refresh the list
     }
 
     private void clearFormFields() {        //clear form fields after submission
@@ -104,6 +136,4 @@ public class NewTaskActivity extends AppCompatActivity {
         editTextDeadline.setText("");
         editTextNotes.setText("");
     }
-
-
 }
