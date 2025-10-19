@@ -1,24 +1,24 @@
 package com.example.tasklogger;
 
+import android.app.DatePickerDialog;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.example.tasklogger.Task;
-import android.app.DatePickerDialog;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Calendar;
 import java.util.Locale;
 
-
 public class NewTaskActivity extends AppCompatActivity {
 
-    //declare variables to have references
+    // Declare variables
     private EditText editTextTitle;
     private EditText editTextDeadline;
     private EditText editTextNotes;
@@ -26,13 +26,14 @@ public class NewTaskActivity extends AppCompatActivity {
     private Button btnSubmitTask;
     private Button btnCancel;
 
+    private TaskDatabaseHelper dbHelper;   // SQLite helper
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_task);     //links java to XML
+        setContentView(R.layout.activity_new_task);
 
-        //initialize views
+        // Initialize views
         editTextTitle = findViewById(R.id.editTextTitle);
         editTextDeadline = findViewById(R.id.editTextDeadline);
         editTextNotes = findViewById(R.id.editTextNotes);
@@ -40,16 +41,13 @@ public class NewTaskActivity extends AppCompatActivity {
         btnSubmitTask = findViewById(R.id.btnSubmitTask);
         btnCancel = findViewById(R.id.btnCancel);
 
-        editTextDeadline.setOnClickListener(v -> showDatePickerDialog());   //set up DatePicker dialog on deadline
+        dbHelper = new TaskDatabaseHelper(this);
 
-        btnSubmitTask.setOnClickListener(v -> handleFormSubmission()); //set Click listener on submit button
-
-        btnCancel.setOnClickListener(v -> {     //set click listener for cancel button
-            finish();       //dismiss NewTaskActivity and return to previous screen (Welcome Page)
-        });
+        editTextDeadline.setOnClickListener(v -> showDatePickerDialog());
+        btnSubmitTask.setOnClickListener(v -> handleFormSubmission());
+        btnCancel.setOnClickListener(v -> finish());
     }
 
-    //shows DatePickerDialog when deadline field is clicked
     private void showDatePickerDialog() {
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -58,7 +56,7 @@ public class NewTaskActivity extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
-                (view, year1, monthOfYear, dayOfMonth) -> {     //set date selected by the user to EditText field
+                (view, year1, monthOfYear, dayOfMonth) -> {
                     String date = String.format(Locale.US, "%d-%02d-%02d", year1, monthOfYear + 1, dayOfMonth);
                     editTextDeadline.setText(date);
                 },
@@ -67,43 +65,59 @@ public class NewTaskActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    //logic for form submission for validation
     private void handleFormSubmission() {
-        //get user input and trim whitespace
         String title = editTextTitle.getText().toString().trim();
         String deadline = editTextDeadline.getText().toString().trim();
 
-        if(title.isEmpty()) {        //check if title is empty
+        if (title.isEmpty()) {
             editTextTitle.setError("Task Title is required!");
-            Toast.makeText(this, "Please enter a Task Title.", Toast.LENGTH_SHORT).show(); //provide user feedback toast
-            return; //stop and prevent submission
+            Toast.makeText(this, "Please enter a Task Title.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        if (deadline.isEmpty()) {       //check if deadline is empty
+        if (deadline.isEmpty()) {
             editTextDeadline.setError("Deadline is required!");
-            Toast.makeText(this, "Please select a Deadline.", Toast.LENGTH_SHORT).show();  //provide user feedback toast
-            return; //stop and prevent submission
+            Toast.makeText(this, "Please select a Deadline.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         String notes = editTextNotes.getText().toString().trim();
         boolean useSQLite = checkboxStorageMethod.isChecked();
 
-        Task newTask = new Task(title, deadline, notes);       //create task object
+        if (useSQLite) {
+            // ✅ Save to SQLite
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("title", title);
+            values.put("deadline", deadline);
+            values.put("notes", notes);
 
-        Toast.makeText(this, "Validation OK. Handing off for data storage.", Toast.LENGTH_LONG).show();     //notify user validation is complete
+            long result = db.insert("tasks", null, values);
+            if (result != -1) {
+                Toast.makeText(this, "Task saved in SQLite ✅", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Failed to save task to SQLite ❌", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } else {
+            // ✅ Save to SharedPreferences (simple example)
+            SharedPreferences prefs = getSharedPreferences("TaskPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("title", title);
+            editor.putString("deadline", deadline);
+            editor.putString("notes", notes);
+            editor.apply();
 
-        clearFormFields();  //clear form
+            Toast.makeText(this, "Task saved in SharedPreferences ✅", Toast.LENGTH_SHORT).show();
+        }
 
-        finish();   //finish activity
-
-
+        clearFormFields();
+        finish();
     }
 
-    private void clearFormFields() {        //clear form fields after submission
+    private void clearFormFields() {
         editTextTitle.setText("");
         editTextDeadline.setText("");
         editTextNotes.setText("");
     }
-
-
 }
